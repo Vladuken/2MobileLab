@@ -22,6 +22,23 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductViewHolder> {
     public ProductsAdapter(AppDatabase database) {
         mDatabase = database;
         mProducts = mDatabase.productDao().getAll();
+//        mProducts.add(new Product());
+//        mProducts.add(new Product());
+//        mProducts.add(new Product());
+//        mProducts.add(new Product());
+//        mProducts.add(new Product());
+//        mProducts.add(new Product());
+//        mProducts.add(new Product());
+//        mProducts.add(new Product());
+//        mProducts.add(new Product());
+//        mProducts.add(new Product());
+//        mProducts.add(new Product());
+//        mProducts.add(new Product());
+
+    }
+
+    public void refreshAdapter(){
+        mProducts = mDatabase.productDao().getAll();
     }
 
     @NonNull

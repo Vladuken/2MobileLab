@@ -1,5 +1,6 @@
 package com.zlatka.shoplab;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import com.zlatka.shoplab.rv_products.ProductsAdapter;
 
 public class ProductsFragment extends Fragment {
 
+    private ProductsAdapter mProductsAdapter;
     private RecyclerView mRecyclerView;
 
     @Override
@@ -31,9 +33,8 @@ public class ProductsFragment extends Fragment {
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-//        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),3));
-        mRecyclerView.setAdapter(new ProductsAdapter(SingletonDatabase.getInstance(getContext())));
-
+        mProductsAdapter = new ProductsAdapter(SingletonDatabase.getInstance(getContext()));
+        mRecyclerView.setAdapter(mProductsAdapter);
         return v;
     }
 
@@ -42,5 +43,12 @@ public class ProductsFragment extends Fragment {
     public static ProductsFragment newInstance() {
         ProductsFragment fragment = new ProductsFragment();
         return fragment;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mProductsAdapter.refreshAdapter();
+        mProductsAdapter.notifyItemInserted(mProductsAdapter.getItemCount());
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
