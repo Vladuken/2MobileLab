@@ -29,7 +29,9 @@ public class ProductsFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_products,container,false);
         mRecyclerView = v.findViewById(R.id.rv_products);
 
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),3));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+//        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),3));
         mRecyclerView.setAdapter(new ProductsAdapter(SingletonDatabase.getInstance(getContext())));
 
         return v;

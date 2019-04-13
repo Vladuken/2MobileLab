@@ -14,10 +14,11 @@ public class ProductViewHolder extends RecyclerView.ViewHolder {
 
     public ProductViewHolder(@NonNull View itemView) {
         super(itemView);
-        mTextView = itemView.findViewById(R.id.textView);
+//        mTextView = itemView.findViewById(R.id.);
     }
 
     public void bind(Product product){
-        mTextView.setText(product.toString());
+
+//        mTextView.setText(product.toString());
     }
 }
