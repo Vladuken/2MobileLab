@@ -110,12 +110,14 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(mViewPager,getString(R.string.something_went_wrong),Snackbar.LENGTH_LONG).show();
             }
 
+            this.recreate();
 //            for (Fragment fragment:mAdapter.getFragments()){
 //                fragment.onActivityResult(requestCode,resultCode,data);
 //            }
         }
 
         if(requestCode == BasketActivity.UPDATE_ITEMS && resultCode == Activity.RESULT_OK){
+            this.recreate();
 //            for (Fragment fragment:mAdapter.getFragments()){
 //                fragment.onActivityResult(requestCode,resultCode,data);
 //            }
