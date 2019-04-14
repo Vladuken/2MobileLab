@@ -21,7 +21,12 @@ import com.zlatka.shoplab.rv_products.ProductsAdapter;
 import java.util.List;
 
 public class ProductsFragment extends Fragment {
+    private static final String RV_STYLE = "style";
+    public static final int RV_LINES = 1;
+    public static final int RV_GRID = 2;
 
+
+    private int mCurrentLayoutForItems;
     private ProductsAdapter mProductsAdapter;
     private RecyclerView mRecyclerView;
 
@@ -34,30 +39,49 @@ public class ProductsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_products,container,false);
+
+        int type = getArguments().getInt(RV_STYLE);
+
         mRecyclerView = v.findViewById(R.id.rv_products);
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
         List<Product> products = SingletonDatabase.getInstance(getContext()).productDao().getAll();
-        mProductsAdapter = new ProductsAdapter(products);
+
+
+        if(type == RV_LINES){
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            mCurrentLayoutForItems = R.layout.product_list_item;
+            mProductsAdapter = new ProductsAdapter(products,mCurrentLayoutForItems);
+        }else{
+            mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),3));
+            mCurrentLayoutForItems = R.layout.product_grid_layout;
+            mProductsAdapter = new ProductsAdapter(products,mCurrentLayoutForItems);
+        }
+
         mRecyclerView.setAdapter(mProductsAdapter);
         return v;
     }
 
 
 
-    public static ProductsFragment newInstance() {
+    public static ProductsFragment newInstance(final int type) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(RV_STYLE, type);
+
         ProductsFragment fragment = new ProductsFragment();
+        fragment.setArguments(bundle);
+
         return fragment;
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        if(mProductsAdapter == null){
+            mProductsAdapter = new ProductsAdapter(SingletonDatabase.getInstance(getContext()).productDao().getAll(),mCurrentLayoutForItems);
+        }
+
         if(requestCode == ItemCreateActivity.ADD_PRODUCT_REQUEST_CODE && resultCode == Activity.RESULT_OK){
             List<Product> products = SingletonDatabase.getInstance(getContext()).productDao().getAll();
-//        mProductsAdapter = new ProductsAdapter(products);
-//        mRecyclerView.setAdapter(mProductsAdapter);
             mProductsAdapter.setProducts(products);
             mProductsAdapter.notifyItemInserted(mProductsAdapter.getItemCount());
         }

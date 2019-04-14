@@ -20,9 +20,11 @@ import java.util.List;
 public class ProductsAdapter extends RecyclerView.Adapter<ProductViewHolder> {
 
     List<Product> mProducts;
+    private int mLayoutId;
 
-    public ProductsAdapter(List<Product> products) {
+    public ProductsAdapter(List<Product> products,int layout_id) {
         mProducts =  products;
+        mLayoutId = layout_id;
     }
 
     public List<Product> getProducts() {
@@ -33,14 +35,10 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductViewHolder> {
         mProducts = products;
     }
 
-    //    public void refreshAdapter(){
-//        mProducts = mDatabase.productDao().getAll();
-//    }
-
     @NonNull
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.product_list_item,viewGroup,false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(mLayoutId,viewGroup,false);
         return new ProductViewHolder(v);
     }
 
@@ -54,12 +52,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductViewHolder> {
             public void onClick(View v) {
                 Intent i = new Intent(v.getContext(), ItemDetailActivity.class);
                 i.putExtra(Constants.ID_KEY, product.id);
-//                i.putExtra(Constants.DESCRIPTION_KEY, product.description);
-//                i.putExtra(Constants.AMOUNT_KEY, product.amount);
-//                i.putExtra(Constants.IMAGE_URI_KEY,product.image_uri);
-
                 v.getContext().startActivity(i);
-                //TODO put into bundle
             }
         });
     }

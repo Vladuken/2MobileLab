@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.zlatka.shoplab.model.Product;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,8 +18,8 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
     public MyFragmentPagerAdapter(FragmentManager fm) {
         super(fm);
         mFragments = new LinkedList<>();
-        mFragments.add(ProductsFragment.newInstance());
-        mFragments.add(ProductsFragment.newInstance());
+        mFragments.add(ProductsFragment.newInstance(ProductsFragment.RV_LINES));
+        mFragments.add(ProductsFragment.newInstance(ProductsFragment.RV_GRID));
     }
 
     @Override
