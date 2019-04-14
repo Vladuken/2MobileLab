@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.app_bar_basket:
                 Intent basketIntent = new Intent(this, BasketActivity.class);
-                startActivity(basketIntent);
+                startActivityForResult(basketIntent,BasketActivity.UPDATE_ITEMS);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -69,9 +69,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (data == null) {return;}
 
-        if(requestCode == ItemCreateActivity.ADD_PRODUCT_REQUEST_CODE && resultCode == Activity.RESULT_OK){
+
+
+        if(requestCode == ItemCreateActivity.ADD_PRODUCT_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null){
 
             Bundle bundle = data.getExtras();
             Product product = new Product();
@@ -89,6 +90,13 @@ public class MainActivity extends AppCompatActivity {
                 fragment.onActivityResult(requestCode,resultCode,data);
             }
         }
+
+        if(requestCode == BasketActivity.UPDATE_ITEMS && resultCode == Activity.RESULT_OK){
+            for (Fragment fragment:mAdapter.mFragments){
+                fragment.onActivityResult(requestCode,resultCode,data);
+            }
+        }
+
         super.onActivityResult(requestCode, resultCode, data);
     }
 }

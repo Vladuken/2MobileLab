@@ -25,6 +25,10 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductViewHolder> {
         mProducts =  products;
     }
 
+    public List<Product> getProducts() {
+        return mProducts;
+    }
+
     public void setProducts(List<Product> products) {
         mProducts = products;
     }

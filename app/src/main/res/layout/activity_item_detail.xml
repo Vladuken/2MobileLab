@@ -60,6 +60,16 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_details"
             tools:text="Amount" />
 
+        <SeekBar
+            android:id="@+id/sb_amount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_amount"
+            app:layout_constraintTop_toBottomOf="@+id/tv_amount" />
+
         <Button
             android:id="@+id/btn_add_to_bucket"
             android:layout_width="0dp"
@@ -71,7 +81,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tv_amount"
-            app:layout_constraintTop_toBottomOf="@+id/tv_amount"
+            app:layout_constraintTop_toBottomOf="@+id/sb_amount"
             tools:text="Add to bucket" />
+
+
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

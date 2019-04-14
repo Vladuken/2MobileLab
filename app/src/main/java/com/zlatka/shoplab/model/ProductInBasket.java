@@ -22,4 +22,8 @@ public class ProductInBasket {
     public ProductInBasket() {
     }
 
+    public ProductInBasket(int productId, int amount) {
+        this.productId = productId;
+        this.amount = amount;
+    }
 }

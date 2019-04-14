@@ -8,4 +8,6 @@ import android.arch.persistence.room.RoomDatabase;
 public abstract class AppDatabase extends RoomDatabase {
     public abstract ProductDao productDao();
     public abstract ProductInBasketDao productInBasketDao();
+
+
 }

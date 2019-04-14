@@ -3,13 +3,18 @@ package com.zlatka.shoplab;
 import android.content.Context;
 import android.graphics.Point;
 import android.net.Uri;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.zlatka.shoplab.model.Product;
+import com.zlatka.shoplab.model.ProductInBasket;
 import com.zlatka.shoplab.model.SingletonDatabase;
 
 public class ItemDetailActivity extends AppCompatActivity {
@@ -18,6 +23,10 @@ public class ItemDetailActivity extends AppCompatActivity {
     private TextView mTitle;
     private TextView mDescription;
     private TextView mAmount;
+
+    private SeekBar mSeekBar;
+
+    private Button mAddToBasketBtn;
 
     private Product mProduct;
     @Override
@@ -29,6 +38,8 @@ public class ItemDetailActivity extends AppCompatActivity {
         mTitle = findViewById(R.id.tv_detail_title);
         mDescription = findViewById(R.id.tv_details);
         mAmount = findViewById(R.id.tv_amount);
+        mSeekBar = findViewById(R.id.sb_amount);
+        mAddToBasketBtn = findViewById(R.id.btn_add_to_bucket);
 
         int id = getIntent().getIntExtra(Constants.ID_KEY,1);
         mProduct = SingletonDatabase.getInstance(this).productDao().getById(id);
@@ -36,6 +47,22 @@ public class ItemDetailActivity extends AppCompatActivity {
         mTitle.setText(mProduct.title);
         mDescription.setText(mProduct.description);
         mAmount.setText("" + mProduct.amount);
+
+        mSeekBar.setMax(mProduct.amount);
+
+
+
+        mAddToBasketBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mSeekBar.getProgress() == 0){
+                    Snackbar.make(v,"You cant add 0 items to basket",Snackbar.LENGTH_SHORT).show();
+                }else {
+                    ProductInBasket productInBasket = new ProductInBasket(mProduct.id,mSeekBar.getProgress());
+                    SingletonDatabase.getInstance(v.getContext()).productInBasketDao().upsert(productInBasket);
+                }
+            }
+        });
 
 
 
