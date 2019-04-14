@@ -49,7 +49,7 @@ public class ProductViewHolder extends RecyclerView.ViewHolder {
 
         mTitle.setText(product.title);
         mDesciption.setText(product.description);
-        mAmount.setText("" + product.amount);
+        mAmount.setText(itemView.getResources().getString(R.string.amount) + product.amount);
 //        mTextView.setText(product.toString());
     }
 }

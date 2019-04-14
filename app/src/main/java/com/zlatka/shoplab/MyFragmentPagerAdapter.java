@@ -1,5 +1,6 @@
 package com.zlatka.shoplab;
 
+import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,12 +15,15 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
 
     List<Fragment> mFragments;
+    private Context mContext;
 
-    public MyFragmentPagerAdapter(FragmentManager fm) {
+    public MyFragmentPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
         mFragments = new LinkedList<>();
         mFragments.add(ProductsFragment.newInstance(ProductsFragment.RV_LINES));
         mFragments.add(ProductsFragment.newInstance(ProductsFragment.RV_GRID));
+
+        mContext = context;
     }
 
     @Override
@@ -36,10 +40,10 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         if(position == 0){
-            return "Строки";
+            return mContext.getString(R.string.rows);
 
         }else {
-            return "Столбцы";
+            return mContext.getString(R.string.columns);
         }
     }
 }

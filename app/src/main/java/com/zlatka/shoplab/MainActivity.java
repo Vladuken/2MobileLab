@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mViewPager = findViewById(R.id.vpPager);
 
-        mAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
+        mAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager(),this);
         mViewPager.setAdapter(mAdapter);
 
         TabLayout tabLayout = findViewById(R.id.tablayout);
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                 product.image_uri = bundle.getString(Constants.IMAGE_URI_KEY);
                 SingletonDatabase.getInstance(this).productDao().insertAll(product);
             }catch (NullPointerException e){
-                Snackbar.make(mViewPager,"Error occured",Snackbar.LENGTH_LONG).show();
+                Snackbar.make(mViewPager,getString(R.string.something_went_wrong),Snackbar.LENGTH_LONG).show();
             }
 
             for (Fragment fragment:mAdapter.mFragments){

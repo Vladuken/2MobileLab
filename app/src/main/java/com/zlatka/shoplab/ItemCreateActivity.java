@@ -69,8 +69,8 @@ public class ItemCreateActivity extends AppCompatActivity {
                 String title = mEditTitle.getText().toString();
                 String description = mEditDescription.getText().toString();
                 String strAmount = mEditAmount.getText().toString();
-                if(title.equals("") || description.equals("") || strAmount.equals("") || mImageUri == null){
-                    Snackbar.make(v,"Вы ввели не всю информацию",Snackbar.LENGTH_LONG).show();
+                if(title.isEmpty() || description.isEmpty() || strAmount.isEmpty() || mImageUri == null){
+                    Snackbar.make(v,getString(R.string.not_full_info_string),Snackbar.LENGTH_LONG).show();
                 }else {
                     int amount = Integer.parseInt(mEditAmount.getText().toString());
                     i.putExtra(Constants.TITLE_KEY, title);
@@ -98,7 +98,7 @@ public class ItemCreateActivity extends AppCompatActivity {
                 mImageUri = imageUri;
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
-                Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
             }
 
         }

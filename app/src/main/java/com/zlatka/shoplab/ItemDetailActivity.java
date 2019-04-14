@@ -46,7 +46,7 @@ public class ItemDetailActivity extends AppCompatActivity {
 
         mTitle.setText(mProduct.title);
         mDescription.setText(mProduct.description);
-        mAmount.setText("" + mProduct.amount);
+        mAmount.setText(getString(R.string.amount) + mProduct.amount);
 
         mSeekBar.setMax(mProduct.amount);
 
@@ -56,7 +56,7 @@ public class ItemDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(mSeekBar.getProgress() == 0){
-                    Snackbar.make(v,"You cant add 0 items to basket",Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(v,getString(R.string.message_add_zero_in_basket),Snackbar.LENGTH_SHORT).show();
                 }else {
                     ProductInBasket productInBasket = new ProductInBasket(mProduct.id,mSeekBar.getProgress());
                     SingletonDatabase.getInstance(v.getContext()).productInBasketDao().upsert(productInBasket);
