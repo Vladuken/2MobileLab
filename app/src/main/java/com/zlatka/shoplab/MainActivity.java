@@ -13,7 +13,6 @@ import android.view.MenuItem;
 
 import com.zlatka.shoplab.model.Product;
 import com.zlatka.shoplab.model.SingletonDatabase;
-import com.zlatka.shoplab.rv_products.ProductsAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -73,9 +72,9 @@ public class MainActivity extends AppCompatActivity {
             product.title = data.getStringExtra(ItemDetailActivity.TITLE_KEY);
             product.description = data.getStringExtra(ItemDetailActivity.DESCRIPTION_KEY);
             product.amount = data.getIntExtra(ItemDetailActivity.AMOUNT_KEY,0);
+            product.image_uri = data.getStringExtra(ItemDetailActivity.IMAGE_URI_KEY);
 
             SingletonDatabase.getInstance(this).productDao().insertAll(product);
-
 
             for (Fragment fragment:mAdapter.mFragments){
                 fragment.onActivityResult(requestCode,resultCode,data);

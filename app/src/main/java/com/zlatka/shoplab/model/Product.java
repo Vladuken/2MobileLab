@@ -20,7 +20,7 @@ public class Product {
     public int amount;
 
     @ColumnInfo
-    public String photoPath;
+    public String image_uri;
 
     @ColumnInfo
     public String description;
