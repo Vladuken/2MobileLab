@@ -2,6 +2,8 @@ package com.zlatka.shoplab;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -37,7 +39,12 @@ public class BasketActivity extends AppCompatActivity {
 
 //        List<Product> productList = SingletonDatabase.getInstance(this).productDao().getAll();
         mProductsAdapter = new ProductsAdapter(products,R.layout.product_list_item);
+        mProductsAdapter.setClickable(false);
         mRecyclerView.setAdapter(mProductsAdapter);
+
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setTitle(R.string.basket_name);
+        }
     }
 
 
@@ -94,4 +101,6 @@ public class BasketActivity extends AppCompatActivity {
         mProductsAdapter.getProducts().clear();
         mProductsAdapter.notifyDataSetChanged();
     }
+
+
 }

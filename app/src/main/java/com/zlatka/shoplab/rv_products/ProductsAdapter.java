@@ -22,6 +22,7 @@ import java.util.List;
 public class ProductsAdapter extends RecyclerView.Adapter<ProductViewHolder>
 implements Filterable {
 
+    private boolean mIsClickable = true;
     List<Product> mProducts;
     private int mLayoutId;
 
@@ -42,6 +43,10 @@ implements Filterable {
         mProductsFiltered = products;
     }
 
+    public void setClickable(boolean clickable) {
+        mIsClickable = clickable;
+    }
+
     @NonNull
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -57,9 +62,11 @@ implements Filterable {
         productViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(v.getContext(), ItemDetailActivity.class);
-                i.putExtra(Constants.ID_KEY, product.id);
-                v.getContext().startActivity(i);
+                if(mIsClickable){
+                    Intent i = new Intent(v.getContext(), ItemDetailActivity.class);
+                    i.putExtra(Constants.ID_KEY, product.id);
+                    v.getContext().startActivity(i);
+                }
             }
         });
     }

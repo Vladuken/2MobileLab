@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">ShopLab</string>
+    <string name="basket_name">Basket</string>
+
     <string name="amount">Amount: </string>
     <string name="chosen_amount">Chosen amount: </string>
 

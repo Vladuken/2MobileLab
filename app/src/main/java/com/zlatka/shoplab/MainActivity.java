@@ -2,6 +2,7 @@ package com.zlatka.shoplab;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -20,6 +21,7 @@ import com.zlatka.shoplab.rv_products.ProductsAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
+    private SharedPreferences mSharedPreferences;
     private ViewPager mViewPager;
 
     private MyFragmentPagerAdapter mAdapter;
@@ -35,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(mViewPager);
 
+        mSharedPreferences = getSharedPreferences("shared_pref", 0);
+        mViewPager.setCurrentItem(mSharedPreferences.getInt("display_type",0));
     }
 
 //    @Override
@@ -124,5 +128,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mSharedPreferences.edit().putInt("display_type",mViewPager.getCurrentItem()).apply();
     }
 }
