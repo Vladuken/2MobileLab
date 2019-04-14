@@ -3,6 +3,7 @@ package com.zlatka.shoplab;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -54,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
 
                 return true;
             case R.id.app_bar_add:
-                Intent i = new Intent(this,ItemDetailActivity.class);
-                startActivityForResult(i,ItemDetailActivity.ADD_PRODUCT_REQUEST_CODE);
+                Intent i = new Intent(this, ItemCreateActivity.class);
+                startActivityForResult(i, ItemCreateActivity.ADD_PRODUCT_REQUEST_CODE);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -66,15 +67,19 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (data == null) {return;}
 
-        if(requestCode == ItemDetailActivity.ADD_PRODUCT_REQUEST_CODE && resultCode == Activity.RESULT_OK){
+        if(requestCode == ItemCreateActivity.ADD_PRODUCT_REQUEST_CODE && resultCode == Activity.RESULT_OK){
 
+            Bundle bundle = data.getExtras();
             Product product = new Product();
-            product.title = data.getStringExtra(ItemDetailActivity.TITLE_KEY);
-            product.description = data.getStringExtra(ItemDetailActivity.DESCRIPTION_KEY);
-            product.amount = data.getIntExtra(ItemDetailActivity.AMOUNT_KEY,0);
-            product.image_uri = data.getStringExtra(ItemDetailActivity.IMAGE_URI_KEY);
-
-            SingletonDatabase.getInstance(this).productDao().insertAll(product);
+            try{
+                product.title = bundle.getString(ItemCreateActivity.TITLE_KEY);
+                product.description = bundle.getString(ItemCreateActivity.DESCRIPTION_KEY);
+                product.amount = bundle.getInt(ItemCreateActivity.AMOUNT_KEY,0);
+                product.image_uri = bundle.getString(ItemCreateActivity.IMAGE_URI_KEY);
+                SingletonDatabase.getInstance(this).productDao().insertAll(product);
+            }catch (NullPointerException e){
+                Snackbar.make(mViewPager,"Error occured",Snackbar.LENGTH_LONG).show();
+            }
 
             for (Fragment fragment:mAdapter.mFragments){
                 fragment.onActivityResult(requestCode,resultCode,data);

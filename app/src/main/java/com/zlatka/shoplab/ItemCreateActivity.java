@@ -4,10 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -19,10 +17,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 
-public class ItemDetailActivity extends AppCompatActivity {
+public class ItemCreateActivity extends AppCompatActivity {
 
     public static final int ADD_PRODUCT_REQUEST_CODE = 123;
 
@@ -34,7 +31,7 @@ public class ItemDetailActivity extends AppCompatActivity {
     public static final String TITLE_KEY = "title";
     public static final String DESCRIPTION_KEY = "description";
     public static final String AMOUNT_KEY = "amount";
-    public static final String IMAGE_URI_KEY = "amount";
+    public static final String IMAGE_URI_KEY = "uri_key ";
 
     private ImageView mImageView;
 
@@ -49,14 +46,14 @@ public class ItemDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_item_detail);
+        setContentView(R.layout.activity_item_create);
 
         mImageView = findViewById(R.id.iv_product_photo);
         mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(Intent.ACTION_PICK,
+                Intent i = new Intent(Intent.ACTION_OPEN_DOCUMENT,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(i, GET_PHOTO_REQUEST_CODE);
             }
