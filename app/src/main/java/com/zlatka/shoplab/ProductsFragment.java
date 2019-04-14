@@ -12,8 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.zlatka.shoplab.model.Product;
 import com.zlatka.shoplab.model.SingletonDatabase;
 import com.zlatka.shoplab.rv_products.ProductsAdapter;
+
+import java.util.List;
 
 public class ProductsFragment extends Fragment {
 
@@ -33,7 +36,8 @@ public class ProductsFragment extends Fragment {
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mProductsAdapter = new ProductsAdapter(SingletonDatabase.getInstance(getContext()));
+        List<Product> products = SingletonDatabase.getInstance(getContext()).productDao().getAll();
+        mProductsAdapter = new ProductsAdapter(products);
         mRecyclerView.setAdapter(mProductsAdapter);
         return v;
     }
@@ -47,7 +51,11 @@ public class ProductsFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mProductsAdapter.refreshAdapter();
+
+        List<Product> products = SingletonDatabase.getInstance(getContext()).productDao().getAll();
+//        mProductsAdapter = new ProductsAdapter(products);
+//        mRecyclerView.setAdapter(mProductsAdapter);
+        mProductsAdapter.setProducts(products);
         mProductsAdapter.notifyItemInserted(mProductsAdapter.getItemCount());
         super.onActivityResult(requestCode, resultCode, data);
     }

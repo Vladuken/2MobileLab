@@ -20,16 +20,18 @@ import java.util.List;
 public class ProductsAdapter extends RecyclerView.Adapter<ProductViewHolder> {
 
     List<Product> mProducts;
-    AppDatabase mDatabase;
 
-    public ProductsAdapter(AppDatabase database) {
-        mDatabase = database;
-        mProducts = mDatabase.productDao().getAll();
+    public ProductsAdapter(List<Product> products) {
+        mProducts =  products;
     }
 
-    public void refreshAdapter(){
-        mProducts = mDatabase.productDao().getAll();
+    public void setProducts(List<Product> products) {
+        mProducts = products;
     }
+
+    //    public void refreshAdapter(){
+//        mProducts = mDatabase.productDao().getAll();
+//    }
 
     @NonNull
     @Override

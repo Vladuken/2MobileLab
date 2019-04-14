@@ -58,6 +58,10 @@ public class MainActivity extends AppCompatActivity {
                 Intent i = new Intent(this, ItemCreateActivity.class);
                 startActivityForResult(i, ItemCreateActivity.ADD_PRODUCT_REQUEST_CODE);
                 return true;
+            case R.id.app_bar_basket:
+                Intent basketIntent = new Intent(this, BasketActivity.class);
+                startActivity(basketIntent);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
