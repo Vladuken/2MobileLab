@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.zlatka.shoplab.BitmapUtil;
 import com.zlatka.shoplab.R;
 import com.zlatka.shoplab.model.Product;
 
@@ -41,29 +42,14 @@ public class ProductViewHolder extends RecyclerView.ViewHolder {
 
 
         final Uri imageUri = Uri.parse(product.image_uri);
+        BitmapUtil.setImage(itemView.getContext(),mImageView,imageUri,
+                Math.round(itemView.getContext().getResources().getDimension(R.dimen.list_item_image_width)),
+                Math.round(itemView.getContext().getResources().getDimension(R.dimen.list_item_image_height)));
 
-        try{
-
-            final Bitmap selectedImage = MediaStore.Images.Media.getBitmap(
-                    itemView.getContext().getContentResolver(),
-                    imageUri);
-
-            mImageView.setImageBitmap(
-                    ThumbnailUtils.extractThumbnail(
-                            selectedImage,
-                            Math.round(itemView.getResources().getDimension(R.dimen.list_item_image_width)),
-                            Math.round(itemView.getResources().getDimension(R.dimen.list_item_image_height))
-                    )
-            );
-
-        }catch (IOException e){
-            mImageView.setImageDrawable(itemView.getResources().getDrawable(R.drawable.ic_search_black_24dp,itemView.getContext().getTheme()));
-        }
 
         mTitle.setText(product.title);
         mDesciption.setText(product.description);
         mAmount.setText("" + product.amount);
-
 //        mTextView.setText(product.toString());
     }
 }

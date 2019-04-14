@@ -28,10 +28,7 @@ public class ItemCreateActivity extends AppCompatActivity {
 
 
 
-    public static final String TITLE_KEY = "title";
-    public static final String DESCRIPTION_KEY = "description";
-    public static final String AMOUNT_KEY = "amount";
-    public static final String IMAGE_URI_KEY = "uri_key ";
+
 
     private ImageView mImageView;
 
@@ -76,10 +73,10 @@ public class ItemCreateActivity extends AppCompatActivity {
                     Snackbar.make(v,"Вы ввели не всю информацию",Snackbar.LENGTH_LONG).show();
                 }else {
                     int amount = Integer.parseInt(mEditAmount.getText().toString());
-                    i.putExtra(TITLE_KEY, title);
-                    i.putExtra(DESCRIPTION_KEY, description);
-                    i.putExtra(AMOUNT_KEY, amount);
-                    i.putExtra(IMAGE_URI_KEY,mImageUri.toString());
+                    i.putExtra(Constants.TITLE_KEY, title);
+                    i.putExtra(Constants.DESCRIPTION_KEY, description);
+                    i.putExtra(Constants.AMOUNT_KEY, amount);
+                    i.putExtra(Constants.IMAGE_URI_KEY,mImageUri.toString());
                     setResult(Activity.RESULT_OK,i);
                     finish();
                 }

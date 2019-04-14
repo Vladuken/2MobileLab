@@ -12,6 +12,9 @@ import java.util.List;
 @Dao
 public interface ProductDao {
 
+    @Query("SELECT * FROM product WHERE id=:id")
+    Product getById(int id);
+
     @Query("SELECT * FROM product")
     List<Product> getAll();
 

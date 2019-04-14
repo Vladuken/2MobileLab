@@ -8,7 +8,7 @@ import android.arch.persistence.room.PrimaryKey;
 @Entity
 public class Product {
     @PrimaryKey(autoGenerate = true)
-    int id;
+    public int id;
 
     @ColumnInfo
     public String title;

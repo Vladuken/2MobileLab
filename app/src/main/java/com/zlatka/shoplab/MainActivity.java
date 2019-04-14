@@ -72,10 +72,10 @@ public class MainActivity extends AppCompatActivity {
             Bundle bundle = data.getExtras();
             Product product = new Product();
             try{
-                product.title = bundle.getString(ItemCreateActivity.TITLE_KEY);
-                product.description = bundle.getString(ItemCreateActivity.DESCRIPTION_KEY);
-                product.amount = bundle.getInt(ItemCreateActivity.AMOUNT_KEY,0);
-                product.image_uri = bundle.getString(ItemCreateActivity.IMAGE_URI_KEY);
+                product.title = bundle.getString(Constants.TITLE_KEY);
+                product.description = bundle.getString(Constants.DESCRIPTION_KEY);
+                product.amount = bundle.getInt(Constants.AMOUNT_KEY,0);
+                product.image_uri = bundle.getString(Constants.IMAGE_URI_KEY);
                 SingletonDatabase.getInstance(this).productDao().insertAll(product);
             }catch (NullPointerException e){
                 Snackbar.make(mViewPager,"Error occured",Snackbar.LENGTH_LONG).show();
