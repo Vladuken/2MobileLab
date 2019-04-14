@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">ShopLab</string>
     <string name="amount">Amount: </string>
+    <string name="chosen_amount">Chosen amount: </string>
 
     <string name="not_full_info_string">Please, fill all fields.</string>
     <string name="something_went_wrong">Something went wrong</string>
@@ -14,6 +15,7 @@
     <string name="message_add_zero_in_basket">You can\'t add 0 items to basket.</string>
     <string name="search">Search</string>
     <string name="add">Add</string>
+    <string name="item_added">Product added to basket</string>
     <string name="basket">Basket</string>
     <string name="buy">Buy</string>
     <string name="clear_basket">Clear basket</string>

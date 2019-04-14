@@ -71,6 +71,7 @@ public class ProductsFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu,inflater);
         inflater.inflate(R.menu.app_menu, menu);
 
         SearchView searchView = (SearchView) menu.findItem(R.id.app_bar_search)
@@ -140,4 +141,7 @@ public class ProductsFragment extends Fragment {
 
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+
+
 }

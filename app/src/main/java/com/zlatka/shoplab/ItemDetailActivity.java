@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.zlatka.shoplab.model.Product;
 import com.zlatka.shoplab.model.ProductInBasket;
@@ -23,6 +24,7 @@ public class ItemDetailActivity extends AppCompatActivity {
     private TextView mTitle;
     private TextView mDescription;
     private TextView mAmount;
+    private TextView mChosenAmount;
 
     private SeekBar mSeekBar;
 
@@ -38,7 +40,10 @@ public class ItemDetailActivity extends AppCompatActivity {
         mTitle = findViewById(R.id.tv_detail_title);
         mDescription = findViewById(R.id.tv_details);
         mAmount = findViewById(R.id.tv_amount);
+        mChosenAmount = findViewById(R.id.tv_chosen_amount);
+        mChosenAmount.setText(getString(R.string.chosen_amount) + 0);
         mSeekBar = findViewById(R.id.sb_amount);
+
         mAddToBasketBtn = findViewById(R.id.btn_add_to_bucket);
 
         int id = getIntent().getIntExtra(Constants.ID_KEY,1);
@@ -50,6 +55,21 @@ public class ItemDetailActivity extends AppCompatActivity {
 
         mSeekBar.setMax(mProduct.amount);
 
+        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                mChosenAmount.setText(getString(R.string.chosen_amount) + progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
 
 
         mAddToBasketBtn.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +80,9 @@ public class ItemDetailActivity extends AppCompatActivity {
                 }else {
                     ProductInBasket productInBasket = new ProductInBasket(mProduct.id,mSeekBar.getProgress());
                     SingletonDatabase.getInstance(v.getContext()).productInBasketDao().upsert(productInBasket);
+//                    Toast.makeText(this,getString(R.string.item_added),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(v.getContext(),getString(R.string.item_added),Toast.LENGTH_LONG).show();
+                    finish();
                 }
             }
         });
