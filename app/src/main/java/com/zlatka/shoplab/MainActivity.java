@@ -10,10 +10,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.SearchView;
 
 import com.zlatka.shoplab.model.Product;
 import com.zlatka.shoplab.model.SingletonDatabase;
+import com.zlatka.shoplab.rv_products.ProductsAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,25 +37,47 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.app_menu, menu);
+//
+//        SearchView searchView = (SearchView) menu.findItem(R.id.app_bar_search)
+//                .getActionView();
+//        searchView.setMaxWidth(Integer.MAX_VALUE);
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//
+//            @Override
+//            public boolean onQueryTextSubmit(String s) {
+//                useFilter(s);
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String s) {
+//                useFilter(s);
+//                return false;
+//            }
+//
+//            private void useFilter(String s){
+//                for (Fragment fragment :mAdapter.getFragments()){
+//                    if(fragment instanceof ProductsFragment){
+//                        ProductsFragment productsFragment = (ProductsFragment) fragment;
+//                        ProductsAdapter productsAdapter = productsFragment.getProductsAdapter();
+//                        productsAdapter.getFilter().filter(s);
+//                    }
+//                }
+//
+//            }
+//        });
+//
+//        return true;
+//    }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.app_menu, menu);
-        return true;
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
             case R.id.app_bar_search:
-
-
                 return true;
             case R.id.app_bar_add:
                 Intent i = new Intent(this, ItemCreateActivity.class);
@@ -67,11 +92,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-
-
-
         if(requestCode == ItemCreateActivity.ADD_PRODUCT_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null){
 
             Bundle bundle = data.getExtras();
@@ -86,15 +110,15 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(mViewPager,getString(R.string.something_went_wrong),Snackbar.LENGTH_LONG).show();
             }
 
-            for (Fragment fragment:mAdapter.mFragments){
-                fragment.onActivityResult(requestCode,resultCode,data);
-            }
+//            for (Fragment fragment:mAdapter.getFragments()){
+//                fragment.onActivityResult(requestCode,resultCode,data);
+//            }
         }
 
         if(requestCode == BasketActivity.UPDATE_ITEMS && resultCode == Activity.RESULT_OK){
-            for (Fragment fragment:mAdapter.mFragments){
-                fragment.onActivityResult(requestCode,resultCode,data);
-            }
+//            for (Fragment fragment:mAdapter.getFragments()){
+//                fragment.onActivityResult(requestCode,resultCode,data);
+//            }
         }
 
         super.onActivityResult(requestCode, resultCode, data);

@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 
 import com.zlatka.shoplab.Constants;
 import com.zlatka.shoplab.ItemDetailActivity;
@@ -17,13 +19,17 @@ import com.zlatka.shoplab.model.SingletonDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductsAdapter extends RecyclerView.Adapter<ProductViewHolder> {
+public class ProductsAdapter extends RecyclerView.Adapter<ProductViewHolder>
+implements Filterable {
 
     List<Product> mProducts;
     private int mLayoutId;
 
+    private List<Product> mProductsFiltered;
+
     public ProductsAdapter(List<Product> products,int layout_id) {
         mProducts =  products;
+        mProductsFiltered = products;
         mLayoutId = layout_id;
     }
 
@@ -33,6 +39,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductViewHolder> {
 
     public void setProducts(List<Product> products) {
         mProducts = products;
+        mProductsFiltered = products;
     }
 
     @NonNull
@@ -45,7 +52,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder productViewHolder, int i) {
 
-        final Product product = mProducts.get(i);
+        final Product product = mProductsFiltered.get(i);
         productViewHolder.bind(product);
         productViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +66,45 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductViewHolder> {
 
     @Override
     public int getItemCount() {
-        return mProducts.size();
+        return mProductsFiltered.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString().toLowerCase();
+                if (charString.isEmpty()) {
+                    mProductsFiltered = mProducts;
+                } else {
+                    List<Product> filteredList = new ArrayList<>();
+                    for (Product product : mProducts) {
+
+                        if(product.title.toLowerCase().contains(charSequence) || product.description.toLowerCase().contains(charSequence)){
+                            filteredList.add(product);
+                        }
+                        // name match condition. this might differ depending on your requirement
+                        // here we are looking for name or phone number match
+                        //if (row.getName().toLowerCase().contains(charString.toLowerCase()) || row.getPhone().contains(charSequence)) {
+                        //    filteredList.add(row);
+                        //}
+                    }
+
+                    mProductsFiltered = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mProductsFiltered;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                mProductsFiltered = (ArrayList<Product>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 }
+

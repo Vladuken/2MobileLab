@@ -1,6 +1,8 @@
 package com.zlatka.shoplab;
 
 import android.app.Activity;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,9 +12,14 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import com.zlatka.shoplab.model.Product;
 import com.zlatka.shoplab.model.SingletonDatabase;
@@ -33,6 +40,7 @@ public class ProductsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -61,6 +69,40 @@ public class ProductsFragment extends Fragment {
         return v;
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.app_menu, menu);
+
+        SearchView searchView = (SearchView) menu.findItem(R.id.app_bar_search)
+                .getActionView();
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                useFilter(s);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                useFilter(s);
+                return false;
+            }
+
+            private void useFilter(String s){
+//                for (Fragment fragment :mAdapter.getFragments()){
+//                    if(fragment instanceof ProductsFragment){
+//                        ProductsFragment productsFragment = (ProductsFragment) fragment;
+//                        ProductsAdapter productsAdapter = productsFragment.getProductsAdapter();
+                        mProductsAdapter.getFilter().filter(s);
+//                    }
+//                }
+
+            }
+        });
+    }
+
 
 
     public static ProductsFragment newInstance(final int type) {
@@ -71,6 +113,10 @@ public class ProductsFragment extends Fragment {
         fragment.setArguments(bundle);
 
         return fragment;
+    }
+
+    public ProductsAdapter getProductsAdapter() {
+        return mProductsAdapter;
     }
 
     @Override
