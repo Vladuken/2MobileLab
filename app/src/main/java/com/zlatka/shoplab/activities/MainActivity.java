@@ -1,23 +1,21 @@
-package com.zlatka.shoplab;
+package com.zlatka.shoplab.activities;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.SearchView;
 
-import com.zlatka.shoplab.model.Product;
-import com.zlatka.shoplab.model.SingletonDatabase;
-import com.zlatka.shoplab.rv_products.ProductsAdapter;
+import com.zlatka.shoplab.util.Constants;
+import com.zlatka.shoplab.adapters.MyFragmentPagerAdapter;
+import com.zlatka.shoplab.R;
+import com.zlatka.shoplab.db.SingletonDatabase;
+import com.zlatka.shoplab.db.model.Product;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,43 +39,6 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setCurrentItem(mSharedPreferences.getInt("display_type",0));
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.app_menu, menu);
-//
-//        SearchView searchView = (SearchView) menu.findItem(R.id.app_bar_search)
-//                .getActionView();
-//        searchView.setMaxWidth(Integer.MAX_VALUE);
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//
-//            @Override
-//            public boolean onQueryTextSubmit(String s) {
-//                useFilter(s);
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String s) {
-//                useFilter(s);
-//                return false;
-//            }
-//
-//            private void useFilter(String s){
-//                for (Fragment fragment :mAdapter.getFragments()){
-//                    if(fragment instanceof ProductsFragment){
-//                        ProductsFragment productsFragment = (ProductsFragment) fragment;
-//                        ProductsAdapter productsAdapter = productsFragment.getProductsAdapter();
-//                        productsAdapter.getFilter().filter(s);
-//                    }
-//                }
-//
-//            }
-//        });
-//
-//        return true;
-//    }
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -96,8 +57,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(requestCode == ItemCreateActivity.ADD_PRODUCT_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null){
@@ -115,16 +74,10 @@ public class MainActivity extends AppCompatActivity {
             }
 
             this.recreate();
-//            for (Fragment fragment:mAdapter.getFragments()){
-//                fragment.onActivityResult(requestCode,resultCode,data);
-//            }
         }
 
         if(requestCode == BasketActivity.UPDATE_ITEMS && resultCode == Activity.RESULT_OK){
             this.recreate();
-//            for (Fragment fragment:mAdapter.getFragments()){
-//                fragment.onActivityResult(requestCode,resultCode,data);
-//            }
         }
 
         super.onActivityResult(requestCode, resultCode, data);
@@ -133,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        //saving state of chosen style of displaing items
         mSharedPreferences.edit().putInt("display_type",mViewPager.getCurrentItem()).apply();
     }
 }

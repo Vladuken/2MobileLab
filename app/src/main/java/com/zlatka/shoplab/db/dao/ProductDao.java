@@ -1,4 +1,4 @@
-package com.zlatka.shoplab.model;
+package com.zlatka.shoplab.db.dao;
 
 
 import android.arch.persistence.room.Dao;
@@ -6,6 +6,8 @@ import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
+
+import com.zlatka.shoplab.db.model.Product;
 
 import java.util.List;
 

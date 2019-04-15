@@ -1,21 +1,18 @@
-package com.zlatka.shoplab;
+package com.zlatka.shoplab.activities;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.zlatka.shoplab.model.Product;
-import com.zlatka.shoplab.model.SingletonDatabase;
-import com.zlatka.shoplab.rv_products.ProductsAdapter;
+import com.zlatka.shoplab.R;
+import com.zlatka.shoplab.db.SingletonDatabase;
+import com.zlatka.shoplab.db.model.Product;
+import com.zlatka.shoplab.adapters.ProductsAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,12 +31,12 @@ public class BasketActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.rv_products);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+
         List<Product> products = SingletonDatabase.getInstance(this)
                 .productInBasketDao().getAllProducts();
-
-//        List<Product> productList = SingletonDatabase.getInstance(this).productDao().getAll();
         mProductsAdapter = new ProductsAdapter(products,R.layout.product_list_item);
         mProductsAdapter.setClickable(false);
+
         mRecyclerView.setAdapter(mProductsAdapter);
 
         if(getSupportActionBar() != null){
@@ -62,6 +59,7 @@ public class BasketActivity extends AppCompatActivity {
                 clearBasket();
                 return true;
             case R.id.app_bar_basket_buy:
+                //здесь следовало бы вынести этот код в отдельный метод, но мне лень
                 List<Product> products = SingletonDatabase.getInstance(this).productDao().getAll();
                 List<Product> basketProducts = SingletonDatabase.getInstance(this).productInBasketDao().getAllProducts();
 
@@ -72,7 +70,7 @@ public class BasketActivity extends AppCompatActivity {
                         )
                         .collect(Collectors.toList());
 
-                //Deleta amount from list
+                //Delete amount from list
                 for(Product p:products){
                     for (Product bp:basketProducts){
                         if(p.id == bp.id){

@@ -1,4 +1,4 @@
-package com.zlatka.shoplab.model;
+package com.zlatka.shoplab.db;
 
 
 import android.arch.persistence.room.Room;

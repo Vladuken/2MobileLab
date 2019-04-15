@@ -1,41 +1,30 @@
-package com.zlatka.shoplab;
+package com.zlatka.shoplab.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.ThumbnailUtils;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import com.zlatka.shoplab.util.BitmapUtil;
+import com.zlatka.shoplab.util.Constants;
+import com.zlatka.shoplab.R;
 
 public class ItemCreateActivity extends AppCompatActivity {
 
     public static final int ADD_PRODUCT_REQUEST_CODE = 123;
-
-
     private static final int GET_PHOTO_REQUEST_CODE = 200;
 
-
-
-
-
     private ImageView mImageView;
-
     private EditText mEditTitle;
     private EditText mEditDescription;
     private EditText mEditAmount;
-
     private Button mCreateButton;
 
     private Uri mImageUri;
@@ -49,13 +38,11 @@ public class ItemCreateActivity extends AppCompatActivity {
         mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent i = new Intent(Intent.ACTION_OPEN_DOCUMENT,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(i, GET_PHOTO_REQUEST_CODE);
             }
         });
-
 
         mEditTitle = findViewById(R.id.et_product_title);
         mEditDescription = findViewById(R.id.et_edit_details);
@@ -90,18 +77,11 @@ public class ItemCreateActivity extends AppCompatActivity {
         if(data==null)return;
 
         if(requestCode == GET_PHOTO_REQUEST_CODE && resultCode == Activity.RESULT_OK){
-            try {
-                final Uri imageUri = data.getData();
-                final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-                final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                mImageView.setImageBitmap(ThumbnailUtils.extractThumbnail(selectedImage,mImageView.getWidth(),mImageView.getHeight()));
-                mImageUri = imageUri;
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                Toast.makeText(this, getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
-            }
-
+            final Uri imageUri = data.getData();
+            BitmapUtil.setImage(this,mImageView,imageUri,mImageView.getWidth(),mImageView.getHeight());
+            mImageUri = imageUri;
         }
+
         super.onActivityResult(requestCode, resultCode, data);
     }
 }

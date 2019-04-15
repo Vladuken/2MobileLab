@@ -1,37 +1,35 @@
-package com.zlatka.shoplab;
+package com.zlatka.shoplab.fragments;
 
 import android.app.Activity;
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
 
-import com.zlatka.shoplab.model.Product;
-import com.zlatka.shoplab.model.SingletonDatabase;
-import com.zlatka.shoplab.rv_products.ProductsAdapter;
+import com.zlatka.shoplab.R;
+import com.zlatka.shoplab.activities.BasketActivity;
+import com.zlatka.shoplab.activities.ItemCreateActivity;
+import com.zlatka.shoplab.db.SingletonDatabase;
+import com.zlatka.shoplab.db.model.Product;
+import com.zlatka.shoplab.adapters.ProductsAdapter;
 
 import java.util.List;
 
 public class ProductsFragment extends Fragment {
     private static final String RV_STYLE = "style";
+
     public static final int RV_LINES = 1;
     public static final int RV_GRID = 2;
-
 
     private int mCurrentLayoutForItems;
     private ProductsAdapter mProductsAdapter;
@@ -47,14 +45,11 @@ public class ProductsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_products,container,false);
-
         int type = getArguments().getInt(RV_STYLE);
 
         mRecyclerView = v.findViewById(R.id.rv_products);
 
         List<Product> products = SingletonDatabase.getInstance(getContext()).productDao().getAll();
-
-
         if(type == RV_LINES){
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             mCurrentLayoutForItems = R.layout.product_list_item;
@@ -92,19 +87,10 @@ public class ProductsFragment extends Fragment {
             }
 
             private void useFilter(String s){
-//                for (Fragment fragment :mAdapter.getFragments()){
-//                    if(fragment instanceof ProductsFragment){
-//                        ProductsFragment productsFragment = (ProductsFragment) fragment;
-//                        ProductsAdapter productsAdapter = productsFragment.getProductsAdapter();
                         mProductsAdapter.getFilter().filter(s);
-//                    }
-//                }
-
             }
         });
     }
-
-
 
     public static ProductsFragment newInstance(final int type) {
         Bundle bundle = new Bundle();
@@ -114,10 +100,6 @@ public class ProductsFragment extends Fragment {
         fragment.setArguments(bundle);
 
         return fragment;
-    }
-
-    public ProductsAdapter getProductsAdapter() {
-        return mProductsAdapter;
     }
 
     @Override
@@ -141,7 +123,4 @@ public class ProductsFragment extends Fragment {
 
         super.onActivityResult(requestCode, resultCode, data);
     }
-
-
-
 }

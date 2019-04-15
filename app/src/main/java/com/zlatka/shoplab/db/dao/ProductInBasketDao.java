@@ -1,4 +1,4 @@
-package com.zlatka.shoplab.model;
+package com.zlatka.shoplab.db.dao;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
@@ -7,6 +7,9 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 import android.database.sqlite.SQLiteConstraintException;
+
+import com.zlatka.shoplab.db.model.Product;
+import com.zlatka.shoplab.db.model.ProductInBasket;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.zlatka.shoplab.rv_products;
+package com.zlatka.shoplab.adapters;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -9,12 +9,10 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 
-import com.zlatka.shoplab.Constants;
-import com.zlatka.shoplab.ItemDetailActivity;
-import com.zlatka.shoplab.R;
-import com.zlatka.shoplab.model.AppDatabase;
-import com.zlatka.shoplab.model.Product;
-import com.zlatka.shoplab.model.SingletonDatabase;
+import com.zlatka.shoplab.util.Constants;
+import com.zlatka.shoplab.activities.ItemDetailActivity;
+import com.zlatka.shoplab.db.model.Product;
+import com.zlatka.shoplab.view_holders.ProductViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +20,22 @@ import java.util.List;
 public class ProductsAdapter extends RecyclerView.Adapter<ProductViewHolder>
 implements Filterable {
 
+    /**
+     * @param mProducts holds All Products in adapter
+     * @param mProductsFiltered need to binding and to show Products
+     */
     private boolean mIsClickable = true;
     List<Product> mProducts;
     private int mLayoutId;
 
     private List<Product> mProductsFiltered;
 
+
+    /**
+     *
+     * @param products Items to adapter
+     * @param layout_id id to layout resource to be placed in viewholder
+     */
     public ProductsAdapter(List<Product> products,int layout_id) {
         mProducts =  products;
         mProductsFiltered = products;
@@ -38,11 +46,17 @@ implements Filterable {
         return mProducts;
     }
 
+
     public void setProducts(List<Product> products) {
         mProducts = products;
         mProductsFiltered = products;
     }
 
+
+    /**
+     *
+     * @param clickable are items in recyclerview clickable
+     */
     public void setClickable(boolean clickable) {
         mIsClickable = clickable;
     }
@@ -56,7 +70,6 @@ implements Filterable {
 
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder productViewHolder, int i) {
-
         final Product product = mProductsFiltered.get(i);
         productViewHolder.bind(product);
         productViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -80,22 +93,17 @@ implements Filterable {
     public Filter getFilter() {
         return new Filter() {
             @Override
-            protected FilterResults performFiltering(CharSequence charSequence) {
-                String charString = charSequence.toString().toLowerCase();
+            protected FilterResults performFiltering(CharSequence searchCharSequence) {
+                String charString = searchCharSequence.toString().toLowerCase();
                 if (charString.isEmpty()) {
                     mProductsFiltered = mProducts;
                 } else {
                     List<Product> filteredList = new ArrayList<>();
                     for (Product product : mProducts) {
-
-                        if(product.title.toLowerCase().contains(charSequence) || product.description.toLowerCase().contains(charSequence)){
+                        if(product.title.toLowerCase().contains(searchCharSequence)
+                                || product.description.toLowerCase().contains(searchCharSequence)){
                             filteredList.add(product);
                         }
-                        // name match condition. this might differ depending on your requirement
-                        // here we are looking for name or phone number match
-                        //if (row.getName().toLowerCase().contains(charString.toLowerCase()) || row.getPhone().contains(charSequence)) {
-                        //    filteredList.add(row);
-                        //}
                     }
 
                     mProductsFiltered = filteredList;
