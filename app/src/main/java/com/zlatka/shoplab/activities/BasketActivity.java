@@ -35,8 +35,7 @@ public class BasketActivity extends AppCompatActivity {
         List<Product> products = SingletonDatabase.getInstance(this)
                 .productInBasketDao().getAllProducts();
         mProductsAdapter = new ProductsAdapter(products,R.layout.product_list_item);
-        mProductsAdapter.setClickable(false);
-
+        mProductsAdapter.setAddable(false);
         mRecyclerView.setAdapter(mProductsAdapter);
 
         if(getSupportActionBar() != null){

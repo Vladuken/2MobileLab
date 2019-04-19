@@ -35,6 +35,10 @@ public class ProductViewHolder extends RecyclerView.ViewHolder {
 
         mTitle.setText(product.title);
         mDescription.setText(product.description);
-        mAmount.setText(itemView.getResources().getString(R.string.amount) + product.amount);
+        if (product.amount != 0) {
+            mAmount.setText(itemView.getResources().getString(R.string.amount) + product.amount);
+        }else{
+            mAmount.setText(itemView.getResources().getString(R.string.no_product));
+        }
     }
 }
