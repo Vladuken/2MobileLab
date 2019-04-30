@@ -24,12 +24,12 @@ implements Filterable {
      * @param mProducts holds All Products in adapter
      * @param mProductsFiltered need to binding and to show Products
      */
-    private boolean mIsClickable = true;
+    //private boolean mIsClickable = true;
     List<Product> mProducts;
     private int mLayoutId;
 
     private List<Product> mProductsFiltered;
-
+    private  boolean mIsAddable = true;
 
     /**
      *
@@ -53,12 +53,20 @@ implements Filterable {
     }
 
 
+//    /**
+//     *
+//     * @param clickable are items in recyclerview clickable
+//     */
+//    public void setClickable(boolean clickable) {
+//        mIsClickable = clickable;
+//    }
+
     /**
      *
-     * @param clickable are items in recyclerview clickable
+     * @param addable are items in DetailedView can be added to basket
      */
-    public void setClickable(boolean clickable) {
-        mIsClickable = clickable;
+    public void setAddable(boolean addable) {
+        mIsAddable = addable;
     }
 
     @NonNull
@@ -75,11 +83,13 @@ implements Filterable {
         productViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mIsClickable){
+                //if(mIsClickable){
                     Intent i = new Intent(v.getContext(), ItemDetailActivity.class);
+
                     i.putExtra(Constants.ID_KEY, product.id);
+                    i.putExtra(Constants.ADDABLE_KEY, mIsAddable);
                     v.getContext().startActivity(i);
-                }
+                //}
             }
         });
     }
@@ -95,7 +105,7 @@ implements Filterable {
             @Override
             protected FilterResults performFiltering(CharSequence searchCharSequence) {
                 String charString = searchCharSequence.toString().toLowerCase();
-                if (charString.isEmpty()) {
+                if (charString.isEmpty() || charString.length()<3) {
                     mProductsFiltered = mProducts;
                 } else {
                     List<Product> filteredList = new ArrayList<>();
@@ -105,7 +115,7 @@ implements Filterable {
                             filteredList.add(product);
                         }
                     }
-
+                    //if (filteredList.size() != 0)
                     mProductsFiltered = filteredList;
                 }
 

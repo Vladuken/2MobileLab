@@ -9,4 +9,5 @@ public class Constants {
     public static final String DESCRIPTION_KEY = "description";
     public static final String AMOUNT_KEY = "amount";
     public static final String IMAGE_URI_KEY = "uri_key";
+    public static final String ADDABLE_KEY = "addable";
 }

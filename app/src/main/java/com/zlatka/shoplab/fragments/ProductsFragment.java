@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.zlatka.shoplab.R;
 import com.zlatka.shoplab.activities.BasketActivity;
@@ -27,13 +28,13 @@ import java.util.List;
 
 public class ProductsFragment extends Fragment {
     private static final String RV_STYLE = "style";
-
     public static final int RV_LINES = 1;
     public static final int RV_GRID = 2;
 
     private int mCurrentLayoutForItems;
     private ProductsAdapter mProductsAdapter;
     private RecyclerView mRecyclerView;
+    private TextView mTextEmpty;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,23 +45,33 @@ public class ProductsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_products,container,false);
+        View v = inflater.inflate(R.layout.fragment_products, container, false);
+
+        List<Product> products = SingletonDatabase.getInstance(getContext()).productDao().getAll();
         int type = getArguments().getInt(RV_STYLE);
 
         mRecyclerView = v.findViewById(R.id.rv_products);
 
-        List<Product> products = SingletonDatabase.getInstance(getContext()).productDao().getAll();
-        if(type == RV_LINES){
+        if (type == RV_LINES) {
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             mCurrentLayoutForItems = R.layout.product_list_item;
-            mProductsAdapter = new ProductsAdapter(products,mCurrentLayoutForItems);
-        }else{
-            mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),3));
+            mProductsAdapter = new ProductsAdapter(products, mCurrentLayoutForItems);
+        } else {
+            mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
             mCurrentLayoutForItems = R.layout.product_grid_layout;
-            mProductsAdapter = new ProductsAdapter(products,mCurrentLayoutForItems);
+            mProductsAdapter = new ProductsAdapter(products, mCurrentLayoutForItems);
         }
 
+
         mRecyclerView.setAdapter(mProductsAdapter);
+        //mRecyclerView
+
+        mTextEmpty = v.findViewById(R.id.empty_view);
+        if (products.size()==0) {
+            mTextEmpty.setVisibility(View.VISIBLE);
+        } else {
+            mTextEmpty.setVisibility(View.INVISIBLE);
+        }
         return v;
     }
 
@@ -87,7 +98,23 @@ public class ProductsFragment extends Fragment {
             }
 
             private void useFilter(String s){
-                        mProductsAdapter.getFilter().filter(s);
+                if (mProductsAdapter != null) {
+                    mProductsAdapter.getFilter().filter(s);
+
+                    if (mProductsAdapter.getItemCount() == 0 && s.length()>2){
+                        mTextEmpty.setVisibility(View.VISIBLE);
+                    }else {
+                        mTextEmpty.setVisibility(View.GONE);
+                    }
+                }
+            }
+        });
+
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                mTextEmpty.setVisibility(View.INVISIBLE);
+                return false;
             }
         });
     }
